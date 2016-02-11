@@ -64,3 +64,4 @@ target/
 
 # Licence Protected Corpus File
 *.vert
+corpus_files/
