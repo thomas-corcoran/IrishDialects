@@ -5,7 +5,7 @@ import json
 from glob import glob
 class CorpusReader:
     def __init__(self,dialectChoice, limit=0):
-        self.metaFiles = glob('json_files/*-meta.json')
+        self.metaFiles = glob('corpus_files/*-meta.json')
         dia = set()
 
         for i in self.metaFiles:
@@ -99,7 +99,7 @@ class CorpusReader:
             if len(j['dialect']) == 0 : continue
             if j['dialect'].lower() in self.dialectChoice.lower() \
                     and checkTime(j) and checkNativeSpeaker(j):
-                with open('json_files/'+j['doc id']+'.json') as fi:
+                with open('corpus_files/'+j['doc id']+'.json') as fi:
                     l.append(json.load(fi))
         return l
             

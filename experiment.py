@@ -93,10 +93,10 @@ def testSamples(num_sample_sets):
                 # apply model
                 pred = fitted.predict(test_feat_vec)
                 # comute scores
-                f1.append(f1_score(labels[test_labelsI],pred))
-                accuracy.append(accuracy_score(labels[test_labelsI],pred))
-                precision.append(precision_score(labels[test_labelsI],pred))
-                recall.append(recall_score(labels[test_labelsI],pred))
+                f1.append(f1_score(labels[test_labelsI],pred,average='weighted'))
+                accuracy.append(accuracy_score(labels[test_labelsI],pred,average='weighted'))
+                precision.append(precision_score(labels[test_labelsI],pred,average='weighted'))
+                recall.append(recall_score(labels[test_labelsI],pred,average='weighted'))
 #                print "%.4f sample%d"%(results[-1], j)
     return [array(score).mean() for score in (f1,accuracy,precision,recall)]
 def shuffleTestSamples(number_of_shuffles):
@@ -149,7 +149,7 @@ def xval(num_folds,max_k=feat_vecs.shape[1],num_steps=25,get_best=True,k=None):
             pred = fitAndPredict(trainI,testI,k)
             
             if k != 1: 
-                f1_k.append((f1_score(test_labels, pred), k))
+                f1_k.append((f1_score(test_labels, pred,average='weighted'), k))
                 print "%d features: f1=%.4f"%(f1_k[-1][1], f1_k[-1][0])
 #        set_trace()
         k = sorted(f1_k, key=itemgetter(0))[-1][1] # take highest F1
@@ -159,7 +159,7 @@ def xval(num_folds,max_k=feat_vecs.shape[1],num_steps=25,get_best=True,k=None):
         return pred
     
     step_size = max_k/num_steps
-    kf = KFold(len(labels), num_folds, indices=True) # make folds   
+    kf = KFold(len(labels), num_folds)# indices=True) # make folds   
     f1 = []
     accuracy = []
     precision = []
@@ -173,10 +173,10 @@ def xval(num_folds,max_k=feat_vecs.shape[1],num_steps=25,get_best=True,k=None):
         else: # just do one model for k
             pred = fitAndPredict(trainI,testI,k)
         
-        f1.append(f1_score(test_labels,pred))
+        f1.append(f1_score(test_labels,pred,average='weighted'))
         accuracy.append(accuracy_score(test_labels,pred))
-        precision.append(precision_score(test_labels,pred))
-        recall.append(recall_score(test_labels,pred))
+        precision.append(precision_score(test_labels,pred,average='weighted'))
+        recall.append(recall_score(test_labels,pred,average='weighted'))
         i+=1
     f1 = array(f1)
     accuracy = array(accuracy)

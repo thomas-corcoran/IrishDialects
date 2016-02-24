@@ -19,7 +19,7 @@ import sys
 import os
 from cv import XValMT
 
-root_dir = "/home/thomas/Irish"
+root_dir = "/home/chase/NLP/Irish/IrishDialects"
 def warning(*objs):
         print("evaluate.py: WARNING: ", *objs, file=sys.stderr)
 
@@ -79,7 +79,7 @@ def mp(t,k=None):
     fitted = clf.fit(train_feats, train_labels)
     pred = fitted.predict(test_feats) # predict labels for test
    #set_trace()
-    f1 = f1_score(test_labels, pred)
+    f1 = f1_score(test_labels, pred,average='weighted')
     pre = precision_score(test_labels, pred)
     rec = recall_score(test_labels, pred)
     prf1 = [pre,rec,f1]
@@ -92,7 +92,7 @@ def mp(t,k=None):
     return r
 
 
-q = XValMT(labels,n_folds = 10, indices=True)
+q = XValMT(labels,n_folds = 10) #indices=True)
 q.run(mp)
 #avg_con_matx = array([[0,0],[0,0]])
 #avg_pre = 0.0

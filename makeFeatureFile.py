@@ -8,8 +8,8 @@ from Header import Header
 header = Header()
 SUFF = ('eas', 'is', 'ais', 'as', 'eamar', 'amar', 'eabhair', 'abhair', 'ead    ar', 'adar')
 
-books = True
-sentences = False
+books = False
+sentences = True
 
 print "Loading Corpora..."
 if books:
@@ -21,18 +21,19 @@ if books:
     print "\tloading ulster"
     U = CorpusReader('ulster', M.countBooks())
     U.truncateBooks(M.countBooks())
+    l = [U,M,C]
 #print "Done."
 if sentences:
     print "Creating Balanced Set of sentences"
-    l.sort(key=lambda x: x.countBooks())
     M = CorpusReader('munster')
     C = CorpusReader('connacht')
     U = CorpusReader('ulster')
+    l = [U,M,C]
     MIN_LENG = min([x.countSentences() for x in l])
     for x in l:
         x.truncateSentences(MIN_LENG)
 print "Done!"
-l = [U,M,C]
+
 def makeRow(cnt,header,dialect):
     l = []
     if dialect == 'M': dialect = 1
@@ -82,8 +83,8 @@ with open('featureFile.dat', 'w') as fo:
     i = 0
     for dialect in l:
         for book in dialect:
-            cnt = Counter()
             for sentence in book['sentences']:
+                cnt = Counter()
                 suff = checkSuff(sentence)
                 cnt[header["SUFFIX_COUNT"]] = suff
                 e_l = checkLenitedN(sentence)
@@ -94,13 +95,13 @@ with open('featureFile.dat', 'w') as fo:
                     header.add(word['token'])
                     cnt[header[word['token']]] += 1
 
-            if len(cnt) == 0:
-                cnt[header['EMPTY']] = 0
-            i+=1
-            print str(i)
-            try:
-                s = makeRow(cnt,header,book['dialect'][0])
-            except:
-                set_trace()
-            fo.write(s)
+                if len(cnt) == 0:
+                    cnt[header['EMPTY']] = 0
+                i+=1
+                print str(i)
+                try:
+                    s = makeRow(cnt,header,book['dialect'][0])
+                except:
+                    set_trace()
+                fo.write(s)
 print "Done!"

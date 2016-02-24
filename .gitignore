@@ -65,3 +65,4 @@ target/
 # Licence Protected Corpus File
 *.vert
 corpus_files/
+*.dat # feature files
