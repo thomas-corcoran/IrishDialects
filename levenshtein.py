@@ -1,4 +1,5 @@
 def levenshtein(seq1, seq2):
+    """Calcualte the Levenshtein distance"""
     oneago = None
     thisrow = range(1, len(seq2) + 1) + [0]
     for x in xrange(len(seq1)):

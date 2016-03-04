@@ -5,13 +5,11 @@ from pdb import set_trace
 import sklearn.datasets.svmlight_format as svmlight
 from sklearn.feature_selection import chi2, SelectKBest
 from sklearn.naive_bayes import MultinomialNB
-from sklearn import svm
 from sklearn.metrics import f1_score,precision_score,recall_score, accuracy_score
 from sklearn.cross_validation import KFold
 from operator import itemgetter
 from random import shuffle
 from numpy import array
-import sys
 
 print "Loading dataset ..."
 svm_light_in = 'featureFile.dat'

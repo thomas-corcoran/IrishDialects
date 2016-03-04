@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 from pdb import set_trace
-from re import compile
 import json
 from glob import glob
 class CorpusReader:

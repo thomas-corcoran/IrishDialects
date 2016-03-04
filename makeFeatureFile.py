@@ -1,4 +1,3 @@
-from itertools import chain
 from CorpusReader import CorpusReader
 from levenshtein import levenshtein as lev
 from collections import Counter 
